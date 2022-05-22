@@ -1,0 +1,82 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+struct node {
+	int w, we;
+	node* n;
+	node(int v = 0, int wi = 0)
+	{
+		w = v;
+		we = wi;
+	}
+};
+
+struct Graph {
+	int we;
+	node* p;
+};
+
+void readGraph(Graph graph[], int& v)
+{
+	ifstream infile;//FILENAME=("file1.txt")
+	int x,  w, we;
+	char y[25], c1, c2;
+	cout << "enter input file:";
+	cin >> y;
+	infile.open(y);
+	infile >> x >> c1;
+	if (c1=='v')
+	{
+		v = x;
+	}
+	else {
+		cout << "error in input file \n";
+		exit;
+	}
+	while (infile>>x>>c1>>we>>c2)
+	{
+		if (c2=='-')
+		{
+			v = x;
+			graph[v].we = we;
+			graph[v].p = NULL;
+		}
+		else
+		{
+			w = x;
+			node* p = new node(w, we);
+			p->n = graph[v].p;
+			graph[v].p = p;
+			p = NULL;
+		}
+	}
+
+}
+void printGraph(Graph graph[], int v) {
+	node* p;
+	cout << " \n";
+	for (int i = 1; i <= v; i++)
+	{
+		p = graph[i].p;
+		cout << i << "-";
+		while (p != NULL)
+		{
+			cout << p->w << ":" << p->we << "";
+			p = p->n;
+		}
+		cout << endl;
+	}
+	cout << endl;
+	}
+
+int main()
+{
+	int v;
+	Graph g1[100];
+	readGraph(g1,v);
+	printGraph(g1, v);
+	
+
+}
